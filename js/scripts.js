@@ -7,6 +7,19 @@ TaskList.prototype.addTask = function(task){
   task.id = this.assignId();
   this.tasks.push(task);
 }
+
+TaskList.prototype.updateStatus = function(id){
+  for (var i=0; i < this.tasks.length; i++){
+    if (this.tasks[i]) {
+      if (this.tasks[i].id == id) {
+        //toggles between true / false by referencing itself with a !
+        this.tasks[i].completed = !this.tasks[i].completed;
+      }
+    }
+  }
+  return false;
+}
+
 TaskList.prototype.assignId = function() {
   this.currentId += 1;
   return this.currentId;
@@ -41,6 +54,8 @@ function Task(text, completed) {
   this.text = text;
   this.completed = completed;
 }
+
+//Initialize a blank list
 var newList = new TaskList();
 
 function displayTasks(currentTaskList) {
@@ -52,16 +67,24 @@ function displayTasks(currentTaskList) {
   displayedList.html(htmlForListDisplay);
 };
 
-function destroyerOfLists() {
+// function destroyerOfLists() {
+//     $("#listLanding").on("click", "li", function() {
+//         newList.deleteTask(this.id);
+//         displayTasks(newList);
+//       });
+//     };
+
+
+function taskUpdate() {
   $("#listLanding").on("click", "li", function() {
-    newList.deleteTask(this.id);
+    newList.updateStatus(this.id);
     displayTasks(newList);
   });
 };
 
 //User Interface
 $(document).ready(function(){
-  destroyerOfLists();
+  taskUpdate();
   $("#taskForm").submit(function(event){
     event.preventDefault();
     var newTask = new Task ($("#theTask").val(), false);
