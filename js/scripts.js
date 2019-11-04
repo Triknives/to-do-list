@@ -35,16 +35,29 @@ TaskList.prototype.findTask = function(id) {
   return false;
 }
 
-
-
 //Business logic for tasks
 function Task(text, completed) {
   this.text = text;
   this.completed = completed;
 }
 var newList = new TaskList();
-var newTask = new Task("Do the things!", false);
 
-newList.addTask(newTask);
+function displayTasks(currentTaskList) {
+  var displayedList = $("ul#listLanding");
+  var htmlForListDisplay = "";
+  currentTaskList.tasks.forEach(function(task) {
+    htmlForListDisplay += "<li id=" + task.id + ">" + task.text + " Status: " + task.completed + "</li>";
+  });
+  displayedList.html(htmlForListDisplay);
+};
 
-console.log(TaskList.tasks);
+
+//User Interface
+$(document).ready(function(){
+  $("#taskForm").submit(function(event){
+    event.preventDefault();
+    var newTask = new Task ($("#theTask").val(), false);
+    newList.addTask(newTask);
+    displayTasks(newList);
+  })
+});
