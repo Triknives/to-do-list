@@ -35,6 +35,7 @@ TaskList.prototype.findTask = function(id) {
   return false;
 }
 
+
 //Business logic for tasks
 function Task(text, completed) {
   this.text = text;
@@ -51,13 +52,20 @@ function displayTasks(currentTaskList) {
   displayedList.html(htmlForListDisplay);
 };
 
+function destroyerOfLists() {
+  $("#listLanding").on("click", "li", function() {
+    newList.deleteTask(this.id);
+    displayTasks(newList);
+  });
+};
 
 //User Interface
 $(document).ready(function(){
+  destroyerOfLists();
   $("#taskForm").submit(function(event){
     event.preventDefault();
     var newTask = new Task ($("#theTask").val(), false);
     newList.addTask(newTask);
     displayTasks(newList);
-  })
+  });
 });
